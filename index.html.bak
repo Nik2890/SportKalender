@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="Bilder/android-icon-48x48.png" type="image/x-icon">
+
+
+    <title>Sport-Kalender v1.0 </title>
+
+    <!-----------------  Script ----------------------->
+
+    <script>
+
+        window.onload = function () {
+            load_data();
+        };
+
+        let Copy_Toggel_key = false;
+
+        let G_js = {};
+        let A_js = {};
+        let I_js = {};
+        let T_js = {};
+        let W_js = {};
+
+        let Montag_Value = 0;
+
+        document.addEventListener('keydown', function () {
+            if (event.key == 'Control') {
+                Copy_Toggel_key = true
+                //console.log('Copy_Toggel: ' + Copy_Toggel);
+
+            }
+        });
+
+        document.addEventListener('keyup', function () {
+            if (event.key == 'Control') {
+                Copy_Toggel_key = false
+                //console.log('Copy_Toggel: ' + Copy_Toggel);
+            }
+        });
+
+
+        function Change_BWB_Tag2 (){
+
+            let color1 = "#8ba9dc 25%";
+            let color2 = "#61d686 75%";
+            
+            var objname = event.target.id;
+           
+           
+           if(this[objname].innerHTML.length <= 30 ){ 
+            this[objname].innerHTML = `<a  style="background-image:linear-gradient(to bottom,` + color1 +` ,` + color2 +` )">  `+ event.target.id  + `</a>`;
+            }
+            
+            else{
+            this[objname].innerHTML = `<a> `+ event.target.id  + ` </a>`
+            }
+
+           
+            
+
+
+        }
+
+
+
+        function reset_data() {
+            clear_Datafield();
+            set_Ablage();
+            safe_data();
+        };
+
+        function clear_Datafield() {
+
+            div_Ablage.innerHTML = ``;
+            div_Früh_Mo.innerHTML = ``;
+            div_Früh_Di.innerHTML = ``;
+            div_Früh_Mi.innerHTML = ``;
+            div_Früh_Do.innerHTML = ``;
+            div_Früh_Fr.innerHTML = ``;
+            div_Früh_Sa.innerHTML = ``;
+            div_Früh_So.innerHTML = ``;
+
+
+            div_P1_Mo.innerHTML = ``;
+            div_P1_Di.innerHTML = ``;
+            div_P1_Mi.innerHTML = ``;
+            div_P1_Do.innerHTML = ``;
+            div_P1_Fr.innerHTML = ``;
+            div_P1_Sa.innerHTML = ``;
+            div_P1_So.innerHTML = ``;
+
+
+            div_Mittag_Mo.innerHTML = ``;
+            div_Mittag_Di.innerHTML = ``;
+            div_Mittag_Mi.innerHTML = ``;
+            div_Mittag_Do.innerHTML = ``;
+            div_Mittag_Fr.innerHTML = ``;
+            div_Mittag_Sa.innerHTML = ``;
+            div_Mittag_So.innerHTML = ``;
+
+
+            div_P2_Mo.innerHTML = ``;
+            div_P2_Di.innerHTML = ``;
+            div_P2_Mi.innerHTML = ``;
+            div_P2_Do.innerHTML = ``;
+            div_P2_Fr.innerHTML = ``;
+            div_P2_Sa.innerHTML = ``;
+            div_P2_So.innerHTML = ``;
+
+
+            div_Abends_Mo.innerHTML = ``;
+            div_Abends_Di.innerHTML = ``;
+            div_Abends_Mi.innerHTML = ``;
+            div_Abends_Do.innerHTML = ``;
+            div_Abends_Fr.innerHTML = ``;
+            div_Abends_Sa.innerHTML = ``;
+            div_Abends_So.innerHTML = ``;
+
+
+        };
+		
+ // <img src="Bilder/Core.png" draggable="true" ondragstart="drag(event)" id="gdrag6" width="100px" height="100px">
+
+        function set_Ablage() {
+            console.log(Phase.value);
+
+            if (Phase.value == 'G') {
+                div_Ablage.innerHTML = `
+                                        <img src="bilder/bikecir.png" draggable="true" ondragstart="drag(event)" id="gdrag1" width="100px" height="100px">
+                                        <img src="bilder/runcir_lit.png" draggable="true" ondragstart="drag(event)" id="gdrag2" width="100px" height="100px">
+                                        <img src="bilder/runcir_lit.png" draggable="true" ondragstart="drag(event)" id="gdrag3" width="100px" height="100px">                                       
+                                        <img src="bilder/kraftcir.png" draggable="true" ondragstart="drag(event)" id="gdrag4" width="100px" height="100px">
+                                        <img src="bilder/kraftcir.png" draggable="true" ondragstart="drag(event)" id="gdrag5" width="100px" height="100px">
+                                       
+                                        <img src="bilder/hockeycir.png" draggable="true" ondragstart="drag(event)" id="gdrag6" width="100px" height="100px">
+                                        <img src="bilder/pausecir.png" draggable="true" ondragstart="drag(event)" id="gdrag7" width="100px" height="100px">
+                                        `;
+            }
+
+            if (Phase.value == 'A') {
+                div_Ablage.innerHTML = `
+                                        //<img src="bilder/swimcir.png" draggable="true" ondragstart="drag(event)" id="adrag1" width="100px" height="100px">
+                                        //<img src="bilder/bikecir.png" draggable="true" ondragstart="drag(event)" id="adrag2" width="100px" height="100px">
+                                        //<img src="bilder/bikecir_hit.png" draggable="true" ondragstart="drag(event)" id="adrag3" width="100px" height="100px">
+                                        
+                                        <img src="bilder/runcir_lit.png" draggable="true" ondragstart="drag(event)" id="adrag5" width="100px" height="100px">
+                                        <img src="bilder/runcir.png" draggable="true" ondragstart="drag(event)" id="adrag6" width="100px" height="100px">
+                                        
+                                        <img src="bilder/runcir_hit.png" draggable="true" ondragstart="drag(event)" id="adrag8" width="100px" height="100px">                                        
+                                        <img src="bilder/runcir_long.png" draggable="true" ondragstart="drag(event)" id="adrag9" width="100px" height="100px">  
+                                        <img src="bilder/hockeycir.png" draggable="true" ondragstart="drag(event)" id="adrag10" width="100px" height="100px">
+                                        <img src="bilder/pausecir.png" draggable="true" ondragstart="drag(event)" id="adrag11" width="100px" height="100px">
+										<img src="bilder/kraftcir.png" draggable="true" ondragstart="drag(event)" id="adrag12" width="100px" height="100px">
+										<img src="bilder/kraftcir.png" draggable="true" ondragstart="drag(event)" id="adrag7" width="100px" height="100px">
+                                        `;
+            }
+
+            if (Phase.value == 'I') {
+                div_Ablage.innerHTML = ``;
+            }
+
+            if (Phase.value == 'W') {
+                div_Ablage.innerHTML = ``;
+            }
+
+            if (Phase.value == 'T') {
+                div_Ablage.innerHTML = `
+                                        <img src="Bilder/swimCir.png" draggable="true" ondragstart="drag(event)" id="drag7" width="100px" height="100px">
+                                        <img src="Bilder/bikeCir.png" draggable="true" ondragstart="drag(event)" id="drag12" width="100px" height="100px">
+                                        <img src="Bilder/runCir.png" draggable="true" ondragstart="drag(event)" id="drag13" width="100px" height="100px">
+                                        <img src="Bilder/HockeyCir.png" draggable="true" ondragstart="drag(event)" id="drag19" width="100px" height="100px">
+                                        <img src="Bilder/PauseCir.png" draggable="true" ondragstart="drag(event)" id="drag20" width="100px" height="100px">
+                                        `;
+            }
+
+            if (Phase.value == 'FALSE') {
+                div_Ablage.innerHTML = `
+                                        <img src="Bilder/bikeCir.png" draggable="true" ondragstart="drag(event)" id="adrag11" width="100px" height="100px">
+                                        <img src="Bilder/swimCir.png" draggable="true" ondragstart="drag(event)" id="adrag7" width="100px" height="100px">
+                                        <img src="Bilder/bikeCir.png" draggable="true" ondragstart="drag(event)" id="adrag12" width="100px" height="100px">
+                                        <img src="Bilder/runCir.png" draggable="true" ondragstart="drag(event)" id="adrag13" width="100px" height="100px">
+                                        <img src="Bilder/runCir.png" draggable="true" ondragstart="drag(event)" id="adrag14" width="100px" height="100px">
+                                        <img src="Bilder/KraftCir.png" draggable="true" ondragstart="drag(event)" id="adrag15" width="100px" height="100px">
+                                        <img src="Bilder/KraftCir.png" draggable="true" ondragstart="drag(event)" id="adrag16" width="100px" height="100px">
+                                        <img src="Bilder/KraftCir.png" draggable="true" ondragstart="drag(event)" id="adrag17" width="100px" height="100px">
+                                        <img src="Bilder/Core.png" draggable="true" ondragstart="drag(event)" id="adrag18" width="100px" height="100px">
+                                        <img src="Bilder/HockeyCir.png" draggable="true" ondragstart="drag(event)" id="adrag19" width="100px" height="100px">
+                                        <img src="Bilder/PauseCir.png" draggable="true" ondragstart="drag(event)" id="adrag20" width="100px" height="100px">
+                                        `;
+            }
+
+
+        }
+
+
+
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+
+
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+
+
+
+        function drop(ev) {
+
+            //Drag&Drop
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            var checkBox = document.getElementById("Copy-Mode-cb");
+
+            if (ev.target.id.startsWith('Müll')) {
+                var el = document.getElementById(data);
+                el.parentNode.removeChild(el);
+                //console.log('Ich: ' + ev);
+                //console.log('Ziel: ' + ev.target.id);
+                //console.log('toggel-Key: ' + Copy_Toggel_key);
+                //console.log('toggel_cb: ' + checkBox.checked);
+                //console.log('-----------------------');
+            };
+
+
+
+            if (checkBox.checked == true || Copy_Toggel_key == true) {
+
+                if (ev.target.id.startsWith('div')) {
+                    var nodeCopy = document.getElementById(data).cloneNode(true);
+                    nodeCopy.id = new Date().getTime(); //ev.target.id + "1"; /* We cannot use the same ID */
+                    if (ev.target.id.startsWith('div')) { ev.target.appendChild(nodeCopy) };
+                    //console.log('Ich: ' + data);
+                    //console.log('Ziel: ' + ev.target.id);
+                    //console.log('toggel-Key: ' + Copy_Toggel_key);
+                    //console.log('toggel_cb: ' + checkBox.checked);
+                    //console.log('-----------------------');
+                }
+            }
+            else {
+                if (ev.target.id.startsWith('div')) {
+                    ev.target.appendChild(document.getElementById(data));
+                    //console.log('Ich: ' + data);
+                    //console.log('Ziel: ' + ev.target.id);
+                    //console.log('toggel-key: ' + Copy_Toggel_key);
+                    //console.log('toggel_cd: ' + checkBox.checked);
+                    //console.log('-----------------------');
+
+                }
+            };
+
+            safe_data();
+
+        };
+
+
+
+
+        function load_data() {
+
+            let G_js = JSON.parse(localStorage.getItem('G_js')) || {};
+            let A_js = JSON.parse(localStorage.getItem('A_js')) || {};
+            let I_js = JSON.parse(localStorage.getItem('I_js')) || {};
+            let T_js = JSON.parse(localStorage.getItem('T_js')) || {};
+            let W_js = JSON.parse(localStorage.getItem('W_js')) || {};
+
+
+            div_Ablage.innerHTML = eval(Phase.value + '_js').div_Ablage
+
+            div_Früh_Mo.innerHTML = eval(Phase.value + '_js').div_Früh_Mo
+            div_Früh_Di.innerHTML = eval(Phase.value + '_js').div_Früh_Di
+            div_Früh_Mi.innerHTML = eval(Phase.value + '_js').div_Früh_Mi
+            div_Früh_Do.innerHTML = eval(Phase.value + '_js').div_Früh_Do
+            div_Früh_Fr.innerHTML = eval(Phase.value + '_js').div_Früh_Fr
+            div_Früh_Sa.innerHTML = eval(Phase.value + '_js').div_Früh_Sa
+            div_Früh_So.innerHTML = eval(Phase.value + '_js').div_Früh_So
+
+            div_P1_Mo.innerHTML = eval(Phase.value + '_js').div_P1_Mo
+            div_P1_Di.innerHTML = eval(Phase.value + '_js').div_P1_Di
+            div_P1_Mi.innerHTML = eval(Phase.value + '_js').div_P1_Mi
+            div_P1_Do.innerHTML = eval(Phase.value + '_js').div_P1_Do
+            div_P1_Fr.innerHTML = eval(Phase.value + '_js').div_P1_Fr
+            div_P1_Sa.innerHTML = eval(Phase.value + '_js').div_P1_Sa
+            div_P1_So.innerHTML = eval(Phase.value + '_js').div_P1_So
+
+            div_Mittag_Mo.innerHTML = eval(Phase.value + '_js').div_Mittag_Mo
+            div_Mittag_Di.innerHTML = eval(Phase.value + '_js').div_Mittag_Di
+            div_Mittag_Mi.innerHTML = eval(Phase.value + '_js').div_Mittag_Mi
+            div_Mittag_Do.innerHTML = eval(Phase.value + '_js').div_Mittag_Do
+            div_Mittag_Fr.innerHTML = eval(Phase.value + '_js').div_Mittag_Fr
+            div_Mittag_Sa.innerHTML = eval(Phase.value + '_js').div_Mittag_Sa
+            div_Mittag_So.innerHTML = eval(Phase.value + '_js').div_Mittag_So
+
+            div_P2_Mo.innerHTML = eval(Phase.value + '_js').div_P2_Mo
+            div_P2_Di.innerHTML = eval(Phase.value + '_js').div_P2_Di
+            div_P2_Mi.innerHTML = eval(Phase.value + '_js').div_P2_Mi
+            div_P2_Do.innerHTML = eval(Phase.value + '_js').div_P2_Do
+            div_P2_Fr.innerHTML = eval(Phase.value + '_js').div_P2_Fr
+            div_P2_Sa.innerHTML = eval(Phase.value + '_js').div_P2_Sa
+            div_P2_So.innerHTML = eval(Phase.value + '_js').div_P2_So
+
+            div_Abends_Mo.innerHTML = eval(Phase.value + '_js').div_Abends_Mo
+            div_Abends_Di.innerHTML = eval(Phase.value + '_js').div_Abends_Di
+            div_Abends_Mi.innerHTML = eval(Phase.value + '_js').div_Abends_Mi
+            div_Abends_Do.innerHTML = eval(Phase.value + '_js').div_Abends_Do
+            div_Abends_Fr.innerHTML = eval(Phase.value + '_js').div_Abends_Fr
+            div_Abends_Sa.innerHTML = eval(Phase.value + '_js').div_Abends_Sa
+            div_Abends_So.innerHTML = eval(Phase.value + '_js').div_Abends_So
+
+
+        };
+
+
+        function safe_data() {
+
+            eval(Phase.value + '_js').div_Ablage = div_Ablage.innerHTML
+
+            eval(Phase.value + '_js').div_Früh_Mo = div_Früh_Mo.innerHTML
+            eval(Phase.value + '_js').div_Früh_Di = div_Früh_Di.innerHTML
+            eval(Phase.value + '_js').div_Früh_Mi = div_Früh_Mi.innerHTML
+            eval(Phase.value + '_js').div_Früh_Do = div_Früh_Do.innerHTML
+            eval(Phase.value + '_js').div_Früh_Fr = div_Früh_Fr.innerHTML
+            eval(Phase.value + '_js').div_Früh_Sa = div_Früh_Sa.innerHTML
+            eval(Phase.value + '_js').div_Früh_So = div_Früh_So.innerHTML
+
+            eval(Phase.value + '_js').div_P1_Mo = div_P1_Mo.innerHTML
+            eval(Phase.value + '_js').div_P1_Di = div_P1_Di.innerHTML
+            eval(Phase.value + '_js').div_P1_Mi = div_P1_Mi.innerHTML
+            eval(Phase.value + '_js').div_P1_Do = div_P1_Do.innerHTML
+            eval(Phase.value + '_js').div_P1_Fr = div_P1_Fr.innerHTML
+            eval(Phase.value + '_js').div_P1_Sa = div_P1_Sa.innerHTML
+            eval(Phase.value + '_js').div_P1_So = div_P1_So.innerHTML
+
+            eval(Phase.value + '_js').div_Mittag_Mo = div_Mittag_Mo.innerHTML
+            eval(Phase.value + '_js').div_Mittag_Di = div_Mittag_Di.innerHTML
+            eval(Phase.value + '_js').div_Mittag_Mi = div_Mittag_Mi.innerHTML
+            eval(Phase.value + '_js').div_Mittag_Do = div_Mittag_Do.innerHTML
+            eval(Phase.value + '_js').div_Mittag_Fr = div_Mittag_Fr.innerHTML
+            eval(Phase.value + '_js').div_Mittag_Sa = div_Mittag_Sa.innerHTML
+            eval(Phase.value + '_js').div_Mittag_So = div_Mittag_So.innerHTML
+
+            eval(Phase.value + '_js').div_P2_Mo = div_P2_Mo.innerHTML
+            eval(Phase.value + '_js').div_P2_Di = div_P2_Di.innerHTML
+            eval(Phase.value + '_js').div_P2_Mi = div_P2_Mi.innerHTML
+            eval(Phase.value + '_js').div_P2_Do = div_P2_Do.innerHTML
+            eval(Phase.value + '_js').div_P2_Fr = div_P2_Fr.innerHTML
+            eval(Phase.value + '_js').div_P2_Sa = div_P2_Sa.innerHTML
+            eval(Phase.value + '_js').div_P2_So = div_P2_So.innerHTML
+
+            eval(Phase.value + '_js').div_Abends_Mo = div_Abends_Mo.innerHTML
+            eval(Phase.value + '_js').div_Abends_Di = div_Abends_Di.innerHTML
+            eval(Phase.value + '_js').div_Abends_Mi = div_Abends_Mi.innerHTML
+            eval(Phase.value + '_js').div_Abends_Do = div_Abends_Do.innerHTML
+            eval(Phase.value + '_js').div_Abends_Fr = div_Abends_Fr.innerHTML
+            eval(Phase.value + '_js').div_Abends_Sa = div_Abends_Sa.innerHTML
+            eval(Phase.value + '_js').div_Abends_So = div_Abends_So.innerHTML
+            
+            console.log(Phase.value + '_js');
+            localStorage.setItem(Phase.value + '_js', JSON.stringify(eval(Phase.value + '_js')));
+        };
+
+    </script>
+
+
+
+</head>
+
+<body>
+    <!-----------------  HEADER ----------------------->
+    <div class="Header1">
+        <div>Sport-Kalender v1.0 </div>
+
+        <div class="Menu">
+            <div>
+                <label for="Copy">Copy-Mode:</label>
+                <label class="switch">
+                    <input type="checkbox" id="Copy-Mode-cb">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+
+            <div>
+                <img id="diskette_button" src="bilder/diskette.png" onclick="safe_data()" width="50px" style="padding-left: 20px;"
+                    height="50px">
+
+            </div>
+
+            <div>
+                <img id="reset_button" src="bilder/reset.png" onclick="reset_data()" width="50px" style="padding-left: 20px;"
+                    height="50px">
+
+            </div>
+
+
+            <div><img id="Müll" src="bilder/trash.png" ondrop="drop(event)" ondragover="allowDrop(event)" width="100px"
+                    style="padding-left: 20px;" height="60px"></div>
+        </div>
+    </div>
+
+
+    <!-----------------  Ablage ----------------------->
+    <div class="Ablage" id="div_Ablage" ondrop="drop(event)" ondragover="allowDrop(event)">
+    </div>
+
+
+
+    <!-----------------  Kalender ----------------------->
+    <div class="schedule-table">
+        <table class="table bg-white">
+
+            <thead>
+                <tr>
+                    <th>
+                        <div>
+
+                            <select onchange="load_data()"
+                                style="font-size: 18px; font-style: normal; height: 50px; width: 100%;" name="Phase"
+                                id="Phase" autocomplete="off">
+                                
+                                <option value="A">Aufbau</option>
+                                <option value="A">---</option>
+                                <option value="G">Grundlage</option>
+                                <option value="A">Aufbau</option>
+                                <option value="I">Intensität</option>
+                                <option value="W">Wettkampf</option>
+                                <option value="T">Tapper</option>
+
+                            </select>
+                        </div>
+                    </th>
+
+
+                    <th id= "Montag" onclick="Change_BWB_Tag2()">       <a>Montag</a>       </th>
+                    <th id= "Dienstag" onclick="Change_BWB_Tag2()">     <a>Dienstag</a>     </th>
+                    <th id= "Mittwoch" onclick="Change_BWB_Tag2()">     <a>Mittwoch</a>     </th>
+                    <th id= "Donnerstag" onclick="Change_BWB_Tag2()">   <a>Donnerstag</a>   </th>
+                    <th id= "Freitag" onclick="Change_BWB_Tag2()">      <a>Freitag</a>      </th>
+                    <th id= "Samstag" onclick="Change_BWB_Tag2()">      <a>Samstag</a>      </th>
+                    <th id= "Sonntag" onclick="Change_BWB_Tag2()">      <a>Sonntag</a>      </th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="day">Früh</td>
+                    <td id="div_Früh_Mo" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Früh_Di" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Früh_Mi" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Früh_Do" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Früh_Fr" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Früh_Sa" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Früh_So" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+
+                </tr>
+
+                <tr>
+                    <td class="day">P1</td>
+                    <td id="div_P1_Mo" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_P1_Di" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_P1_Mi" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_P1_Do" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_P1_Fr" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_P1_Sa" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_P1_So" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+
+                </tr>
+
+                <tr>
+                    <td class="day">Mittag</td>
+                    <td id="div_Mittag_Mo" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Mittag_Di" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Mittag_Mi" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Mittag_Do" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Mittag_Fr" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Mittag_Sa" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Mittag_So" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                </tr>
+
+                <tr>
+                    <td class="day">P2</td>
+                    <td id="div_P2_Mo" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_P2_Di" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_P2_Mi" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_P2_Do" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_P2_Fr" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_P2_Sa" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_P2_So" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                </tr>
+
+                <tr>
+                    <td class="day">Abends</td>
+                    <td id="div_Abends_Mo" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Abends_Di" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Abends_Mi" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Abends_Do" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Abends_Fr" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Abends_Sa" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="div_Abends_So" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+</body>
+
+</html>
