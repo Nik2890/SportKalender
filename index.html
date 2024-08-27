@@ -7,9 +7,13 @@
     <title>N Login</title>
     <script>
 
-        // Im index.html
-        localStorage.setItem('email', document.querySelector('input[type="email"]').value);
-        localStorage.setItem('password', document.querySelector('input[type="password"]').value);
+        function login() {
+            // Im index.html
+            localStorage.setItem('email', document.querySelector('input[type="email"]').value);
+            localStorage.setItem('password', document.querySelector('input[type="password"]').value);
+            window.location.href='frontend.html'
+        }
+
 
         // Im frontend.html
         //var email = localStorage.getItem('email');
@@ -99,11 +103,11 @@
 
 <body>
     <div class="login-container">
-        <img src="bilder/android-chrome-256x256.png" alt="Logo" class="profile-image">
+        <img src="android-chrome-256x256.png" alt="Logo" class="profile-image">
         <form>
             <input type="email" placeholder="Email" required>
             <input type="password" placeholder="Passwort" required>
-            <button onclick="window.location.href='frontend.html'" type="submit">LOGIN</button>
+            <button onclick="login()" type="submit">LOGIN</button>
         </form>
     </div>
 </body>
