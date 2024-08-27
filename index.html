@@ -7,13 +7,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="Bilder/android-icon-48x48.png" type="image/x-icon">
-
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
     <title>Sport-Kalender v1.0 </title>
 
-    <!-----------------  Script ----------------------->
+    <!-----------------  Script ---------_-------------->
 
     <script>
+
+        const Database = iniSupabase();
+        const Anmeldung = signInWithEmail();
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function iniSupabase(PW) {
+            const supabaseUrl = "https://hskeowlqxzmjfsaxwadj.supabase.co";
+            const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhza2Vvd2xxeHptamZzYXh3YWRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM5OTY4MTksImV4cCI6MjAzOTU3MjgxOX0.wus63Imorj_2Q8jJ9BiIHNTyv38-dYrOrHIs6ctYAH8";
+            const Database = supabase.createClient(supabaseUrl, supabaseKey)
+            return Database
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        async function signInWithEmail() {
+            const { data, error } = await Database.auth.signInWithPassword({
+                email: '',
+                password: '',
+            })
+
+            //console.log(data, error)
+
+
+
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        async function readDB(Auswahl) {
+
+            const Datebank = 'SKDB'
+            const Parameter = Auswahl
+            let Antwort = []
+
+            const { data, error } = await Database
+                .from(Datebank)  // Tabelle auswählen
+                .select('*')  // Alle Spalten auswählen
+                .eq('Parameter', Parameter);
+
+            if (error) {
+                console.error('Fehler beim Lesen der Daten:', error);
+            } else {
+                console.log('Abgerufene Daten:', data);
+                let Antwort = data[0]['Wert']
+                console.log(Antwort)
+                console.log("readDB1 -->", Antwort)
+                return Antwort
+            }
+            
+            
+
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function write_data_to_Supabase() {
+            //schreibt von localstorage in Supabase DB
+            const Daten = JSON.stringify(eval(Phase.value + '_js'))
+            updateDB(Phase.value + '_js', Daten);
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        async function load_data_form_Supabase() {
+            let Auswahl = Phase.value + '_js'
+            Tablecontent = await readDB(Auswahl);
+            console.log("Auswahl", Auswahl);
+            console.log("Tablecontent", Tablecontent);
+
+            // Write to localStorage
+            localStorage.setItem(Phase.value + '_js', Tablecontent);
+
+
+            load_data();
+
+
+
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        async function updateDB(Auswahl, Neuer_Wert) {
+
+            console.log("hallo", Neuer_Wert)
+
+            const Datebank = 'SKDB'
+            const Parameter = Auswahl
+
+
+            const { data, error } = await Database
+                .from(Datebank)
+                .update({ 'Wert': Neuer_Wert })
+                .eq('Parameter', Parameter)
+                .select();
+
+            readDB(Auswahl);
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         window.onload = function () {
             load_data();
@@ -45,24 +144,24 @@
         });
 
 
-        function Change_BWB_Tag2 (){
+        function Change_BWB_Tag2() {
 
             let color1 = "#8ba9dc 25%";
             let color2 = "#61d686 75%";
-            
+
             var objname = event.target.id;
-           
-           
-           if(this[objname].innerHTML.length <= 30 ){ 
-            this[objname].innerHTML = `<a  style="background-image:linear-gradient(to bottom,` + color1 +` ,` + color2 +` )">  `+ event.target.id  + `</a>`;
-            }
-            
-            else{
-            this[objname].innerHTML = `<a> `+ event.target.id  + ` </a>`
+
+
+            if (this[objname].innerHTML.length <= 30) {
+                this[objname].innerHTML = `<a  style="background-image:linear-gradient(to bottom,` + color1 + ` ,` + color2 + ` )">  ` + event.target.id + `</a>`;
             }
 
-           
-            
+            else {
+                this[objname].innerHTML = `<a> ` + event.target.id + ` </a>`
+            }
+
+
+
 
 
         }
@@ -124,8 +223,8 @@
 
 
         };
-		
- // <img src="Bilder/Core.png" draggable="true" ondragstart="drag(event)" id="gdrag6" width="100px" height="100px">
+
+        // <img src="Bilder/Core.png" draggable="true" ondragstart="drag(event)" id="gdrag6" width="100px" height="100px">
 
         function set_Ablage() {
             console.log(Phase.value);
@@ -364,9 +463,10 @@
             eval(Phase.value + '_js').div_Abends_Fr = div_Abends_Fr.innerHTML
             eval(Phase.value + '_js').div_Abends_Sa = div_Abends_Sa.innerHTML
             eval(Phase.value + '_js').div_Abends_So = div_Abends_So.innerHTML
-            
-            console.log(Phase.value + '_js');
+
             localStorage.setItem(Phase.value + '_js', JSON.stringify(eval(Phase.value + '_js')));
+
+
         };
 
     </script>
@@ -389,16 +489,28 @@
                 </label>
             </div>
 
-
+            <!--
             <div>
-                <img id="diskette_button" src="bilder/diskette.png" onclick="safe_data()" width="50px" style="padding-left: 20px;"
-                    height="50px">
+                <img id="diskette_button" src="bilder/diskette.png" onclick="safe_data()" width="50px"
+                    style="padding-left: 20px;" height="50px">
+
+            </div>
+-->
+            <div>
+                <img id="DB_READ_button" src="bilder/diskettedbread.png" onclick="load_data_form_Supabase()"
+                    width="50px" style="padding-left: 20px;" height="50px">
 
             </div>
 
             <div>
-                <img id="reset_button" src="bilder/reset.png" onclick="reset_data()" width="50px" style="padding-left: 20px;"
-                    height="50px">
+                <img id="DB_WRITE_button" src="bilder/diskettedbwrite.png" onclick="write_data_to_Supabase()"
+                    width="50px" style="padding-left: 20px;" height="50px">
+
+            </div>
+
+            <div>
+                <img id="reset_button" src="bilder/reset.png" onclick="reset_data()" width="50px"
+                    style="padding-left: 20px;" height="50px">
 
             </div>
 
@@ -427,7 +539,7 @@
                             <select onchange="load_data()"
                                 style="font-size: 18px; font-style: normal; height: 50px; width: 100%;" name="Phase"
                                 id="Phase" autocomplete="off">
-                                
+
                                 <option value="A">Aufbau</option>
                                 <option value="A">---</option>
                                 <option value="G">Grundlage</option>
@@ -441,13 +553,13 @@
                     </th>
 
 
-                    <th id= "Montag" onclick="Change_BWB_Tag2()">       <a>Montag</a>       </th>
-                    <th id= "Dienstag" onclick="Change_BWB_Tag2()">     <a>Dienstag</a>     </th>
-                    <th id= "Mittwoch" onclick="Change_BWB_Tag2()">     <a>Mittwoch</a>     </th>
-                    <th id= "Donnerstag" onclick="Change_BWB_Tag2()">   <a>Donnerstag</a>   </th>
-                    <th id= "Freitag" onclick="Change_BWB_Tag2()">      <a>Freitag</a>      </th>
-                    <th id= "Samstag" onclick="Change_BWB_Tag2()">      <a>Samstag</a>      </th>
-                    <th id= "Sonntag" onclick="Change_BWB_Tag2()">      <a>Sonntag</a>      </th>
+                    <th id="Montag" onclick="Change_BWB_Tag2()"> <a>Montag</a> </th>
+                    <th id="Dienstag" onclick="Change_BWB_Tag2()"> <a>Dienstag</a> </th>
+                    <th id="Mittwoch" onclick="Change_BWB_Tag2()"> <a>Mittwoch</a> </th>
+                    <th id="Donnerstag" onclick="Change_BWB_Tag2()"> <a>Donnerstag</a> </th>
+                    <th id="Freitag" onclick="Change_BWB_Tag2()"> <a>Freitag</a> </th>
+                    <th id="Samstag" onclick="Change_BWB_Tag2()"> <a>Samstag</a> </th>
+                    <th id="Sonntag" onclick="Change_BWB_Tag2()"> <a>Sonntag</a> </th>
 
                 </tr>
             </thead>
