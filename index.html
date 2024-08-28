@@ -9,17 +9,10 @@
 
         function login() {
             // Im index.html
-            localStorage.setItem('email', document.querySelector('input[type="email"]').value);
-            localStorage.setItem('password', document.querySelector('input[type="password"]').value);
+            localStorage.setItem('email', document.getElementById('email_id').value);
+            localStorage.setItem('password', document.getElementById('password_id').value);
              window.location.href = 'frontend.html';
         }
-
-
-        // Im frontend.html
-        //var email = localStorage.getItem('email');
-        //var password = localStorage.getItem('password');
-
-
 
     </script>
     <style>
@@ -91,7 +84,7 @@
             input {
                 font-size: 5px;
                 padding: 8px;
-            }
+            } 
 
             button {
                 font-size: 7px;
@@ -105,9 +98,9 @@
     <div class="login-container">
         <img src="bilder\n_pic.png" alt="Logo" class="profile-image">
         <form>
-            <input type="email" placeholder="Email" required>
-            <input type="text" placeholder="Passwort" required>
-            <button onclick="login()" type="submit">LOGIN</button>
+            <input id="email_id" type="email" placeholder="Email" required>
+            <input id ="password_id" type="password" placeholder="Passwort" required>
+            <button onclick="login()" type="button">LOGIN</button>
         </form>
     </div>
 </body>
