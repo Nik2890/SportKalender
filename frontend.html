@@ -19,6 +19,7 @@
 	let email = localStorage.getItem('email');
 	let password = localStorage.getItem('password');
 	    
+	    
         const Database = iniSupabase();
         const Anmeldung = signInWithEmail();
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,7 +40,7 @@
                 email: email,
                 password: password,
             })
-
+ 	localStorage.setItem('password', '');
             //console.log(data, error)
 
 
