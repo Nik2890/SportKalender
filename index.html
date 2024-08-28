@@ -99,7 +99,7 @@
         <img src="bilder\n_pic.png" alt="Logo" class="profile-image">
         <form>
             <input id="email_id" type="email" placeholder="Email" required>
-            <input id ="password_id" type="password" placeholder="Passwort" required onkeydown="if(event.key === 'Enter') login()" >
+            <input id ="password_id" type="password" placeholder="Passwort" required onkeypress="if(event.key === 'Enter') login()" >
             <button onclick="login()" type="button">LOGIN</button>
         </form>
     </div>
