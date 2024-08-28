@@ -86,8 +86,8 @@
         async function load_data_form_Supabase() {
             let Auswahl = Phase.value + '_js'
             Tablecontent = await readDB(Auswahl);
-            console.log("Auswahl", Auswahl);
-            console.log("Tablecontent", Tablecontent);
+            //console.log("Auswahl", Auswahl);
+            //console.log("Tablecontent", Tablecontent);
 
             // Write to localStorage
             localStorage.setItem(Phase.value + '_js', Tablecontent);
@@ -103,7 +103,7 @@
 
         async function updateDB(Auswahl, Neuer_Wert) {
 
-            console.log("hallo", Neuer_Wert)
+            //console.log("hallo", Neuer_Wert)
 
             const Datebank = 'SKDB'
             const Parameter = Auswahl
